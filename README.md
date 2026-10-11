@@ -4,9 +4,7 @@ PyTorch implementation of Vec2Null. The code structure, dataset construction, id
 
 ## Environment
 
-Use the existing ROCm environment. The LUMI launchers retain the ROCm 6.2.4 / Python 3.12 / PyTorch 2.6.0 container configured in [scripts/lumi/env.sh](scripts/lumi/env.sh). Set `LUMI_ACCOUNT` before submitting jobs. Set `ONESHUI_PYTHON` to use an existing interpreter, or keep the configured container.
-
-For a fresh AMD GPU environment, use Linux x86_64 with glibc 2.28 or newer, a compatible AMD driver, and Python 3.10–3.12. Python 3.12 is recommended. From the repository root, create a virtual environment and install [requirements-amd.txt](requirements-amd.txt):
+Use an AMD GPU environment on Linux x86_64 with glibc 2.28 or newer and a compatible AMD driver. The dependencies are configured for ROCm 6.2.4, PyTorch 2.6.0, and Python 3.10–3.12; Python 3.12 is recommended. From the repository root, create a virtual environment and install [requirements-amd.txt](requirements-amd.txt):
 
 ```bash
 python3.12 -m venv .venv
@@ -16,9 +14,7 @@ python -m pip install -r requirements-amd.txt
 python -m pip check
 ```
 
-The file pins the ROCm 6.2.4 builds of PyTorch and TorchVision together with the Python dependencies. Use it when creating a new environment; keep the existing LUMI container for current jobs. Confirm that the AMD GPU and driver support ROCm 6.2.4 before running experiments. The driver must be installed separately from these Python packages.
-
-Outside LUMI, run the Python entry points directly, for example `python vec2null.py --help`. In the job examples below, replace `bash scripts/lumi/submit_vec2null.sh --` with `python`.
+The file pins the ROCm 6.2.4 builds of PyTorch and TorchVision together with the Python dependencies. Install the compatible AMD driver separately from these Python packages.
 
 Prepare the alignment sources with that environment's Python:
 
@@ -26,10 +22,10 @@ Prepare the alignment sources with that environment's Python:
 python scripts/prepare_alignment.py
 ```
 
-Submit GPU commands through the existing launcher:
+Check the command-line interface:
 
 ```bash
-bash scripts/lumi/submit_vec2null.sh -- vec2null.py --help
+python vec2null.py --help
 ```
 
 Run `git lfs install` before adding `.pth` weights to Git; their LFS rules are in `.gitattributes`. After cloning, run `git lfs pull` to download the weights.
@@ -41,7 +37,7 @@ This repository does not distribute datasets or protocol files. Obtain the data,
 Use target checkpoints produced by MetaUnlearn, containing `args`, `splits`, and `state_dict`. Saved identity splits and support images are reused. For example, prepare a target model using:
 
 ```bash
-bash scripts/lumi/submit_vec2null.sh -- main.py --method pretrain --dataset celebahq --num_identities 20 --seed 1 --data_dir datasets --store_dir checkpoints
+python main.py --method pretrain --dataset celebahq --num_identities 20 --seed 1 --data_dir datasets --store_dir checkpoints
 ```
 
 ## UnoFace
@@ -57,7 +53,7 @@ UnoFace requires five-landmark face alignment. The preparation script retrieves 
 Train the meta-loss:
 
 ```bash
-bash scripts/lumi/submit_vec2null.sh -- vec2null.py meta-train --config configs/vec2null.json --target checkpoints/celebahq/vit_base_patch16_224/pretrain_20_1.pth --data-root datasets --output output/meta --seed 1
+python vec2null.py meta-train --config configs/vec2null.json --target checkpoints/celebahq/vit_base_patch16_224/pretrain_20_1.pth --data-root datasets --output output/meta --seed 1
 ```
 
 Create a request JSON with exactly one entry for each support image in the target checkpoint's unlearning protocol. `identity` is the dataset identity identifier, and `image` is an absolute image path. Support labels and identity tokens follow MetaUnlearn's annotated request setting.
@@ -71,13 +67,13 @@ Create a request JSON with exactly one entry for each support image in the targe
 Apply unlearning:
 
 ```bash
-bash scripts/lumi/submit_vec2null.sh -- vec2null.py unlearn --config configs/vec2null.json --target checkpoints/celebahq/vit_base_patch16_224/pretrain_20_1.pth --artifact output/meta/meta-last.pth --request request.json --data-root datasets --output output/unlearned --seed 1
+python vec2null.py unlearn --config configs/vec2null.json --target checkpoints/celebahq/vit_base_patch16_224/pretrain_20_1.pth --artifact output/meta/meta-last.pth --request request.json --data-root datasets --output output/unlearned --seed 1
 ```
 
 Evaluate a checkpoint:
 
 ```bash
-bash scripts/lumi/submit_vec2null.sh -- vec2null.py evaluate --target output/unlearned/unlearned.pth --data-root datasets --output output/evaluation --seed 1
+python vec2null.py evaluate --target output/unlearned/unlearned.pth --data-root datasets --output output/evaluation --seed 1
 ```
 
 For comparisons, evaluate all methods with this repository's shared evaluator and identical checkpoint splits. The loss-based MIA uses a fixed 100-tree Gini random forest with seed 0, rather than selecting an attacker on the forget set.
