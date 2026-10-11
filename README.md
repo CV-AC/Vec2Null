@@ -1,6 +1,8 @@
 # Vec2Null
 
-PyTorch implementation of Vec2Null. The code structure, dataset construction, identity splits, and one-shot identity unlearning protocol follow [MetaUnlearn / ONE-SHUI](https://github.com/tdemin16/one-shui), the code for [Unlearning Personal Data from a Single Image](https://openreview.net/forum?id=VxC4PZ71Ym).
+PyTorch implementation of [Vec2Null: Structured Identity Vectorization and Nulling for One-Shot Face Unlearning](https://ieeexplore.ieee.org/document/11695252).
+
+The code structure, dataset construction, identity splits, and one-shot identity unlearning protocol follow [MetaUnlearn / ONE-SHUI](https://github.com/tdemin16/one-shui), the code for [Unlearning Personal Data from a Single Image](https://openreview.net/forum?id=VxC4PZ71Ym).
 
 ## Environment
 
@@ -72,4 +74,19 @@ Evaluate a checkpoint:
 
 ```bash
 python vec2null.py evaluate --target output/unlearned/unlearned.pth --data-root datasets --output output/evaluation --seed 1
+```
+
+## Citation
+
+```bibtex
+@article{yu2026vec2null,
+  title={{Vec2Null: Structured Identity Vectorization and Nulling for One-Shot Face Unlearning}},
+  author={Hao Yu and Hui Wei and Guoying Zhao},
+  journal={IEEE Transactions on Information Forensics and Security},
+  year={2026},
+  volume={21},
+  pages={8645--8660},
+  doi={10.1109/TIFS.2026.3734767},
+  url={https://ieeexplore.ieee.org/document/11695252}
+}
 ```
