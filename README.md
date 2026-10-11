@@ -75,17 +75,3 @@ python vec2null.py evaluate --target output/unlearned/unlearned.pth --data-root 
 ```
 
 For comparisons, evaluate all methods with this repository's shared evaluator and identical checkpoint splits. The loss-based MIA uses a fixed 100-tree Gini random forest with seed 0, rather than selecting an attacker on the forget set.
-
-## Reference
-
-Thomas De Min, Massimiliano Mancini, Stéphane Lathuilière, Subhankar Roy, and Elisa Ricci. *Unlearning Personal Data from a Single Image*. Transactions on Machine Learning Research, 2025. [Paper](https://openreview.net/forum?id=VxC4PZ71Ym) · [Code](https://github.com/tdemin16/one-shui).
-
-```bibtex
-@article{min2025unlearning,
-  title={Unlearning Personal Data from a Single Image},
-  author={Thomas De Min and Massimiliano Mancini and St{\'e}phane Lathuili{\`e}re and Subhankar Roy and Elisa Ricci},
-  journal={Transactions on Machine Learning Research},
-  year={2025},
-  url={https://openreview.net/forum?id=VxC4PZ71Ym}
-}
-```
