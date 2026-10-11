@@ -73,5 +73,3 @@ Evaluate a checkpoint:
 ```bash
 python vec2null.py evaluate --target output/unlearned/unlearned.pth --data-root datasets --output output/evaluation --seed 1
 ```
-
-For comparisons, evaluate all methods with this repository's shared evaluator and identical checkpoint splits. The loss-based MIA uses a fixed 100-tree Gini random forest with seed 0, rather than selecting an attacker on the forget set.
