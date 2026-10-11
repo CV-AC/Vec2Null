@@ -44,8 +44,6 @@ python main.py --method pretrain --dataset celebahq --num_identities 20 --seed 1
 
 [configs/vec2null.json](configs/vec2null.json) loads `weights/unoface_20ep.pth`. Paths in this configuration are relative to the configuration file; command-line arguments override its defaults.
 
-Only the pretrained UnoFace encoder and inference components are provided. UnoFace training code and training protocols are not included.
-
 UnoFace requires five-landmark face alignment. The preparation script retrieves the pinned [InsightFace](https://github.com/deepinsight/insightface/tree/0159b24d44cbc91abbd07b7a6fab0ba923a7fddf) alignment code. Supply the SCRFD `det_500m.onnx` detector from the [InsightFace model zoo](https://github.com/deepinsight/insightface/tree/master/python-package#model-zoo) as `weights/det_500m.onnx`, or override `--reference-detector`.
 
 ## Usage
