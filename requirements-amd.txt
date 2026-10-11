@@ -1,0 +1,25 @@
+# AMD ROCm runtime: Linux x86_64, Python 3.10-3.12 (3.12 recommended).
+# Install: python -m pip install -r requirements-amd.txt
+# Explicit +rocm versions prevent pip from selecting CUDA/CPU torch wheels.
+--extra-index-url https://download.pytorch.org/whl/rocm6.2.4
+
+torch==2.6.0+rocm6.2.4
+torchvision==0.21.0+rocm6.2.4
+
+# VEC2NULL training, evaluation, and CPU face alignment dependencies.
+numpy==1.26.4
+Pillow==11.1.0
+timm==1.0.15
+lmdb==1.6.2
+scipy==1.13.1
+pandas==2.2.3
+scikit-learn==1.6.1
+matplotlib==3.9.4
+torchmetrics==1.7.1
+transformers==4.51.1
+wandb==0.19.9
+tqdm==4.66.5
+opencv-python-headless==4.11.0.86
+onnx==1.17.0
+onnxruntime==1.20.1
+scikit-image==0.25.2
